@@ -4,7 +4,7 @@ import { CREATE_CUSTOMER } from "../../Api";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
 const customerApi = createApi({
-    reducerPath: "purchaseBill",
+    reducerPath: "customer",
     baseQuery: fetchBaseQuery({
         baseUrl: BASE_URL,
     }),
@@ -14,7 +14,7 @@ const customerApi = createApi({
             query: ({ params, searchParams }) => {
                 if (searchParams) {
                     return {
-                        url: CREATE_CUSTOMER + "/search/" + searchParams,
+                        url: CREATE_CUSTOMER + "/search/" + searchParams, params,
                         method: "GET",
                         headers: {
                             "Content-type": "application/json; charset=UTF-8",

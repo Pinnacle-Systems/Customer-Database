@@ -13,7 +13,7 @@ import { CLOSE_ICON, DOUBLE_NEXT_ICON } from "../../../icons";
 import CompanyMaster from "../CompanyMaster";
 import { useState } from "react";
 import useOutsideClick from "../../../CustomHooks/handleOutsideClick";
-import { PartyCategoryMaster, PartyMaster, ProductBrandMaster, ProductCategoryMaster, ProductMaster, PurchaseBillEntry, PurchaseRegister, PurchaseReturn, SalesBillEntry, SalesRegister, SalesReturn, UomMaster, StockRegister, MonthlySales, MonthlyPurchase, CurrentStock, MonthlyProfit, CreateCustomer, Relation } from "../../../HostelStore/Components";
+import { PartyCategoryMaster, PartyMaster, ProductBrandMaster, ProductCategoryMaster, ProductMaster, PurchaseBillEntry, PurchaseRegister, PurchaseReturn, SalesBillEntry, SalesRegister, SalesReturn, UomMaster, StockRegister, MonthlySales, MonthlyPurchase, CurrentStock, MonthlyProfit, CreateCustomer, Relation, CustomerReport } from "../../../HostelStore/Components";
 
 
 const ActiveTabList = () => {
@@ -56,7 +56,7 @@ const ActiveTabList = () => {
     "PROFIT REPORT": <MonthlyProfit />,
     "CREATE CUSTOMER": <CreateCustomer />,
     "CREATE RELATION": <Relation />,
-    "CUSTOMER REPORT": <CreateCustomer />
+    "CUSTOMER DATA": <CustomerReport />
 
 
   };

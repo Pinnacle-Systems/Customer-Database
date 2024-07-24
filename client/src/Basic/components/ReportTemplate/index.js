@@ -14,9 +14,9 @@ const ACTIVE = (
 const INACTIVE = (
   <button className="rounded bg-red-500 border border-red-300 p-1 disabled">
     INACTIVE
-
   </button>
 );
+
 const BLOOD_LIST = bloodList;
 const MOMENT = moment;
 const FIND_FROM_LIST = findFromList;
@@ -68,10 +68,7 @@ const Report = ({
                   <thead className="border-2 table-header">
                     <tr>
                       {tableHeaders.map((head, index) => (
-                        <th
-                          key={index}
-                          className="border-2  top-0 stick-bg"
-                        >
+                        <th key={index} className="border-2 top-0 stick-bg">
                           {head}
                         </th>
                       ))}
@@ -84,9 +81,15 @@ const Report = ({
                         className="border-2 table-row"
                         onClick={() => onClick(dataObj.id)}
                       >
-                        {tableDataNames.map((data, index) => (
-                          <td key={index} className="table-data" style={{ backgroundColor: data === "dataObj.color" ? eval("dataObj.pantone") : undefined }}>
-                            {eval(data)}
+                        {tableDataNames.map((dataName, index) => (
+                          <td
+                            key={index}
+                            className="table-data"
+                            style={{
+                              backgroundColor: dataName === "color" ? dataObj.pantone : undefined,
+                            }}
+                          >
+                            {dataName == 'dataObj.active' ? dataObj.active ? ACTIVE : INACTIVE : dataObj.name}
                           </td>
                         ))}
                       </tr>

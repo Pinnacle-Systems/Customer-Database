@@ -4,17 +4,17 @@ import { CREATE_RELATION } from "../../Api";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
 const relationDetailsApi = createApi({
-    reducerPath: "relationMaster",
+    reducerPath: "relation",
     baseQuery: fetchBaseQuery({
         baseUrl: BASE_URL,
     }),
     tagTypes: ["relation"],
     endpoints: (builder) => ({
         getRelation: builder.query({
-            query: ({ searchParams }) => {
+            query: ({ searchParams, params }) => {
                 if (searchParams) {
                     return {
-                        url: CREATE_RELATION + "/search/" + searchParams,
+                        url: CREATE_RELATION + "/search/" + searchParams, params,
                         method: "GET",
                         headers: {
                             "Content-type": "application/json; charset=UTF-8",

@@ -19,7 +19,9 @@ import {
   salesBill,
   purchaseReturn,
   salesReturn,
-  uom
+  uom,
+  relation,
+  customer
 } from './src/routes/index.js';
 
 import { socketMain } from './src/sockets/socket.js';
@@ -86,6 +88,8 @@ app.use("/salesBill", salesBill);
 app.use("/purchaseReturn", purchaseReturn)
 app.use("/salesReturn", salesReturn)
 app.use('/uom', uom)
+app.use('/relation', relation)
+app.use("/customer", customer)
 
 
 

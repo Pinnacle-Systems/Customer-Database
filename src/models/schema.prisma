@@ -596,29 +596,41 @@ model SalesReturnItems {
 }
 
 model Customer {
-  id             Int       @id @default(autoincrement())
-  customerId     String
-  name           String
-  gender         String?
-  email          String
-  phone          String
-  address        String?
-  city           String?
-  state          String?
-  pin            String?
-  weddingDate    DateTime?
-  members        Int?
-  workingStatus  String?
-  age            Int?
-  PurchaseDate   DateTime? @default(now())
-  purchaseAmount Float?
-  totalValue     Float?
-  marriedStatus  String?
-  Company        Company   @relation(fields: [companyId], references: [id])
-  companyId      Int
+  id                Int                 @id @default(autoincrement())
+  customerDetId     String?
+  name              String?
+  gender            String?
+  email             String?
+  phone             String
+  address           String?
+  city              String?
+  state             String?
+  pin               String?
+  weddingDate       DateTime?
+  members           Int?
+  workingStatus     String?
+  age               Int?
+  PurchaseDate      DateTime?           @default(now())
+  purchaseAmount    Float?
+  totalValue        Float?
+  marriedStatus     String?
+  Company           Company             @relation(fields: [companyId], references: [id])
+  companyId         Int
+  customerRelations customerRelations[]
+}
+
+model customerRelations {
+  id          Int       @id @default(autoincrement())
+  name        String?
+  gender      String?
+  dob         DateTime?
+  phoneNumber String?
+  Customer    Customer? @relation(fields: [customerId], references: [id])
+  customerId  Int?
 }
 
 model Relation {
-  id   Int    @id @default(autoincrement())
-  name String
+  id     Int     @id @default(autoincrement())
+  name   String
+  active Boolean @default(true)
 }

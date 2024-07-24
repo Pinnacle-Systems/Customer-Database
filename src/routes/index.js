@@ -32,6 +32,8 @@ export { default as stock } from "./stock.route.js"
 export { default as salesBill } from "./salesBill.route.js"
 export { default as salesReturn } from "./salesReturn.route.js"
 export { default as uom } from "./uom.route.js"
+export { default as relation } from "./relation.route.js"
+export { default as customer } from "./customer.route.js"
 
 
 

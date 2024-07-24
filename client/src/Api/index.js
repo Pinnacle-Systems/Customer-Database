@@ -26,8 +26,8 @@ export const SALES_BILL_API = "salesBill"
 export const PURCHASE_RETURN_API = "purchaseReturn"
 export const SALES_RETURN_API = "salesReturn"
 export const UOM_API = "uom"
-export const CREATE_CUSTOMER = 'createCustomer'
-export const CREATE_RELATION = 'createRelation'
+export const CREATE_CUSTOMER = 'customer'
+export const CREATE_RELATION = 'relation'
 
 
 

@@ -16,6 +16,7 @@ import {
 
 
 
+
 const commonReducers = {
   openTabs,
   countryMaster: countryMasterApi.reducer,
@@ -45,6 +46,7 @@ const commonReducers = {
   customer: customerApi.reducer,
   relation: relationDetailsApi.reducer
 
+
 }
 const commonMiddleware = [countryMasterApi.middleware,
 pageMasterApi.middleware,
@@ -72,6 +74,7 @@ salesReturnApi.middleware,
 uomMasterApi.middleware,
 customerApi.middleware,
 relationDetailsApi.middleware
+
 ];
 
 

@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 async function get(req) {
     const { active } = req.query
-    const data = await prisma.page.findMany({
+    const data = await prisma.relation.findMany({
         where: {
             active: active ? Boolean(active) : undefined,
         }
@@ -15,7 +15,7 @@ async function get(req) {
 
 
 async function getOne(id) {
-    const data = await prisma.page.findUnique({
+    const data = await prisma.relation.findUnique({
         where: {
             id: parseInt(id)
         }
@@ -41,7 +41,7 @@ async function getPermissions(req) {
 
 async function getSearch(req) {
     const { searchKey } = req.params
-    const data = await prisma.page.findMany({
+    const data = await prisma.relation.findMany({
         where: {
             OR: [
                 {
@@ -49,11 +49,7 @@ async function getSearch(req) {
                         contains: searchKey,
                     },
                 },
-                {
-                    link: {
-                        contains: searchKey,
-                    },
-                },
+
             ],
         }
     })
@@ -61,11 +57,11 @@ async function getSearch(req) {
 }
 
 async function create(body) {
-    const { name, link, active, type, pageGroupId } = await body
-    const data = await prisma.page.create(
+    const { name } = await body
+    const data = await prisma.relation.create(
         {
             data: {
-                name, link, active, type, pageGroupId: parseInt(pageGroupId)
+                name,
             }
         }
     )
@@ -74,25 +70,25 @@ async function create(body) {
 
 async function update(id, body) {
     const { name, link, active, type, pageGroupId } = await body
-    const dataFound = await prisma.page.findUnique({
+    const dataFound = await prisma.relation.findUnique({
         where: {
             id: parseInt(id)
         }
     })
     if (!dataFound) return NoRecordFound("Page");
-    const data = await prisma.page.update({
+    const data = await prisma.relation.update({
         where: {
             id: parseInt(id),
         },
         data: {
-            name, link, active, type, pageGroupId: parseInt(pageGroupId)
+            name,
         }
     })
     return { statusCode: 0, data };
 };
 
 async function remove(id) {
-    const data = await prisma.page.delete({
+    const data = await prisma.relation.delete({
         where: {
             id: parseInt(id)
         },

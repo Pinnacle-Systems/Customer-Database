@@ -1,61 +1,48 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
-    useGetPagesQuery,
-    useGetPagesByIdQuery,
-    useAddPageMutation,
-    useUpdatePageMutation,
-    useDeletePageMutation,
-} from "../../../redux/services/PageMasterService";
+    useGetRelationQuery,
+    useGetRelationByIdQuery,
+    useAddRelationMutation,
+    useUpdateRelationMutation,
+    useDeleteRelationMutation,
+} from "../../../redux/services/RelationMasterService";
 
 import { toast } from "react-toastify";
-import { TextInput, CheckBox, DropdownInput } from "../../../Inputs";
-
-import { pageType } from "../../../Utils/DropdownData"
-import { useGetPageGroupQuery } from "../../../redux/services/PageGroupMasterServices";
-import { dropDownListObject } from "../../../Utils/contructObject";
+import { TextInput, CheckBox } from "../../../Inputs";
 import FormHeader from "../../../Basic/components/FormHeader";
 import FormReport from "../../../Basic/components/FormReportTemplate";
-import ReportTemplate from '../../../Basic/components/ReportTemplate'
-
+import ReportTemplate from '../../../Basic/components/ReportTemplate';
 
 const MODEL = "Relation Master";
+
 export default function Relation() {
     const [form, setForm] = useState(false);
-
     const [readOnly, setReadOnly] = useState(false);
     const [id, setId] = useState("");
     const [name, setName] = useState("");
-    const [link, setLink] = useState("");
-    const [type, setType] = useState("")
-    const [pageGroupId, setPageGroupId] = useState("")
     const [active, setActive] = useState(true);
-
-
     const [searchValue, setSearchValue] = useState("");
     const childRecord = useRef(0);
 
+    const { data: allData, isLoading, isFetching } = useGetRelationQuery({ searchParams: searchValue });
 
-    const { data: allData, isLoading, isFetching } = useGetPagesQuery({ searchParams: searchValue });
+    // Add a console log to check the response
+    console.log("Fetched allData:", allData);
+
     const {
         data: singleData,
         isFetching: isSingleFetching,
         isLoading: isSingleLoading,
-    } = useGetPagesByIdQuery(id, { skip: !id });
+    } = useGetRelationByIdQuery(id, { skip: !id });
 
-    const { data: pageGroupData, isLoading: isGroupLoading, isFetching: isGroupFetching } = useGetPageGroupQuery({})
-
-
-    const [addData] = useAddPageMutation();
-    const [updateData] = useUpdatePageMutation();
-    const [removeData] = useDeletePageMutation();
+    const [addData] = useAddRelationMutation();
+    const [updateData] = useUpdateRelationMutation();
+    const [removeData] = useDeleteRelationMutation();
 
     const syncFormWithDb = useCallback(
         (data) => {
             if (id) setReadOnly(true);
-            setName(data?.name ? data?.name : "");
-            setLink(data?.link ? data?.link : "");
-            setType(data?.type ? data?.type : "");
-            setPageGroupId(data?.pageGroupId ? data?.pageGroupId : "");
+            setName(data?.name || "");
             setActive(id ? (data?.active ? data.active : false) : true);
         },
         [id]
@@ -66,25 +53,19 @@ export default function Relation() {
     }, [isSingleFetching, isSingleLoading, id, syncFormWithDb, singleData]);
 
     const data = {
-        name, link, active, type, pageGroupId,
-        id,
+        name, active, id,
     };
 
-    const validateData = (data) => {
-        if (data.name && data.type && data.pageGroupId) {
-            return true;
-        }
-        return false;
-    }
+    const validateData = (data) => data.name;
 
     const handleSubmitCustom = async (callback, data, text) => {
         try {
             await callback(data).unwrap();
-            setId("")
-            syncFormWithDb(undefined)
-            toast.success(text + "Successfully");
+            setId("");
+            syncFormWithDb(undefined);
+            toast.success(`${text} Successfully`);
         } catch (error) {
-            console.log("handle");
+            console.log("handle", error);
         }
     };
 
@@ -95,7 +76,7 @@ export default function Relation() {
             });
             return;
         }
-        if (!window.confirm("Are you sure save the details ...?")) {
+        if (!window.confirm("Are you sure to save the details?")) {
             return;
         }
         if (id) {
@@ -107,7 +88,7 @@ export default function Relation() {
 
     const deleteData = async () => {
         if (id) {
-            if (!window.confirm("Are you sure to delete...?")) {
+            if (!window.confirm("Are you sure to delete?")) {
                 return;
             }
             try {
@@ -115,7 +96,7 @@ export default function Relation() {
                 setId("");
                 toast.success("Deleted Successfully");
             } catch (error) {
-                toast.error("something went wrong");
+                toast.error("Something went wrong");
             }
         }
     };
@@ -136,17 +117,13 @@ export default function Relation() {
         syncFormWithDb(undefined);
     };
 
-    function onDataClick(id) {
+    const onDataClick = (id) => {
         setId(id);
         setForm(true);
-    }
+    };
 
-    const tableHeaders = ["Page Name", "Page Link", "Status"];
-    const tableDataNames = [
-        "dataObj.name",
-        "dataObj.link",
-        "dataObj.active ? ACTIVE : INACTIVE",
-    ];
+    const tableHeaders = [" Name", "Status"];
+    const tableDataNames = ["dataObj.name", "dataObj.active"];
 
     if (!form)
         return (
@@ -154,9 +131,7 @@ export default function Relation() {
                 heading={MODEL}
                 tableHeaders={tableHeaders}
                 tableDataNames={tableDataNames}
-                loading={
-                    isLoading || isFetching
-                }
+                loading={isLoading || isFetching}
                 setForm={setForm}
                 data={allData?.data}
                 onClick={onDataClick}
@@ -182,7 +157,6 @@ export default function Relation() {
                     saveData={saveData}
                     setReadOnly={setReadOnly}
                     deleteData={deleteData}
-
                 />
                 <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-x-2 overflow-clip">
                     <div className="col-span-3 grid md:grid-cols-2 border overflow-auto">
@@ -191,39 +165,12 @@ export default function Relation() {
                                 <legend className="sub-heading">Page Info</legend>
                                 <div className="grid grid-cols-1 my-2">
                                     <TextInput
-                                        name="Page Name"
+                                        name="Relation Type"
                                         type="text"
                                         value={name}
                                         setValue={setName}
                                         required={true}
                                         readOnly={readOnly}
-                                        disabled={(childRecord.current > 0)}
-                                    />
-                                    <TextInput
-                                        name="Link"
-                                        type="text"
-                                        value={link}
-                                        setValue={setLink}
-                                        required={true}
-                                        readOnly={readOnly}
-                                        disabled={(childRecord.current > 0)}
-                                    />
-                                    <DropdownInput
-                                        name="Type"
-                                        options={pageType}
-                                        value={type}
-                                        setValue={setType}
-                                        required={true}
-                                        readOnly={readOnly}
-                                        disabled={(childRecord.current > 0)}
-                                    />
-                                    <DropdownInput
-                                        name="Page Group"
-                                        options={dropDownListObject(pageGroupData ? pageGroupData.data.filter(g => g.type === type) : [], "name", "id")}
-                                        value={pageGroupId}
-                                        setValue={setPageGroupId}
-                                        required={true}
-                                        readOnly={!type || readOnly}
                                         disabled={(childRecord.current > 0)}
                                     />
                                     <CheckBox
@@ -244,9 +191,7 @@ export default function Relation() {
                             tableHeaders={tableHeaders}
                             tableDataNames={tableDataNames}
                             data={allData?.data}
-                            loading={
-                                isLoading || isFetching
-                            }
+                            loading={isLoading || isFetching}
                         />
                     </div>
                 </div>

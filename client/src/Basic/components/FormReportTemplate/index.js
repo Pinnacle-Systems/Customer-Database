@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment/moment";
 import { EMPTY_ICON } from '../../../icons';
-import {Loader} from "../../components"
+import { Loader } from "../../components"
 import { findFromList } from "../../../Utils/helper";
 
 const ACTIVE = (
@@ -66,12 +66,12 @@ export default function FormReport({
                     ))}
                   </tr>
                 </thead>
-                <tbody className="border-2">{console.log(data,"data")}
+                <tbody className="border-2">{console.log(data, "data")}
                   {data?.map((dataObj, index) => (
-                    <tr key={index} className="border-2 table-row" onClick={()=> setId(dataObj.id)} >
+                    <tr key={index} className="border-2 table-row" onClick={() => setId(dataObj.id)} >
                       {tableDataNames.map((data, index) => (
-                        <td key={index} className="table-data" style={{backgroundColor: data === "dataObj.color" ? eval("dataObj.pantone") : undefined}}>
-                          {eval(data)}
+                        <td key={index} className="table-data" style={{ backgroundColor: data === "dataObj.color" ? eval("dataObj.pantone") : undefined }}>
+                          {data == 'dataObj.active' ? ACTIVE : eval(data)}
                         </td>
                       ))}
                     </tr>
