@@ -9,5 +9,5 @@ export async function getFinYearStartTimeEndTime(finYearId) {
     let endDate = data.to;
     const { startTime: startDateStartTime } = getDateTimeRange(startDate);
     const { endTime: endDateEndTime } = getDateTimeRange(endDate);
-    return { startDateStartTime, endDateEndTime }
+    return { startTime: startDateStartTime, endTime: endDateEndTime }
 }

@@ -11,17 +11,8 @@ const customerApi = createApi({
     tagTypes: ["CreateCustomer"],
     endpoints: (builder) => ({
         getCustomers: builder.query({
-            query: ({ params, searchParams }) => {
-                if (searchParams) {
-                    return {
-                        url: CREATE_CUSTOMER + "/search/" + searchParams, params,
-                        method: "GET",
-                        headers: {
-                            "Content-type": "application/json; charset=UTF-8",
-                        },
-                        params
-                    };
-                }
+            query: ({ params }) => {
+
                 return {
                     url: CREATE_CUSTOMER,
                     method: "GET",
@@ -30,6 +21,8 @@ const customerApi = createApi({
                     },
                     params
                 };
+
+
             },
             providesTags: ["CreateCustomer"],
         }),
@@ -46,15 +39,29 @@ const customerApi = createApi({
             providesTags: ["CreateCustomer"],
         }),
         addCustomer: builder.mutation({
-            query: (payload) => ({
+            query: ({ body }) => ({
                 url: CREATE_CUSTOMER,
                 method: "POST",
-                body: payload,
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
+                body
             }),
             invalidatesTags: ["CreateCustomer"],
+        }),
+        updateCustomer: builder.mutation({
+            query: ({ id, body }) => {
+                return {
+                    url: `${CREATE_CUSTOMER}/${id}`,
+                    method: "PUT",
+                    body
+                };
+            },
+            invalidatesTags: ["Pages"],
+        }),
+        deleteCustomer: builder.mutation({
+            query: (id) => ({
+                url: `${CREATE_CUSTOMER}/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Pages"],
         }),
 
     }),
@@ -63,6 +70,9 @@ const customerApi = createApi({
 export const {
     useGetCustomersQuery,
     useAddCustomerMutation,
+    useUpdateCustomerMutation,
+    useDeleteCustomerMutation,
+
 
 } = customerApi;
 

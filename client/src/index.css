@@ -9,6 +9,8 @@ body,
 label {
   font-family: 'Roboto', sans-serif;
   z-index: 0;
+  background-color: white;
+  text-transform: uppercase;
 }
 
 .Select {
@@ -58,11 +60,11 @@ label {
   }
 
   .page-heading {
-    @apply bg-green-600 text-white;
+    @apply bg-white rounded text-black;
   }
 
   .nav-bar-bg {
-    @apply bg-yellow-600;
+    @apply bg-gray-600;
   }
 
   .nav-item {

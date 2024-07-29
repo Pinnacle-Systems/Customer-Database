@@ -182,8 +182,16 @@ export function getDateTimeRangeForCurrentYear(date) {
   return { startTime, endTime };
 }
 
-
-
+export async function getTableRecordWithId(id, tableName) {
+  return await prisma[tableName].findUnique({
+    where: {
+      id: parseInt(id)
+    }
+  })
+}
+export function getYearShortCodeForFinYear(fromDate, toDate) {
+  return `${new Date(fromDate).getFullYear().toString().slice(2)}-${new Date(toDate).getFullYear().toString().slice(2)}`
+}
 
 export function generateOrderProductID() {
   // Generate a random UUID

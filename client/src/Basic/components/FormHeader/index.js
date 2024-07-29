@@ -96,7 +96,7 @@ const FormHeader = ({
       {isLoading || isFetching ? (
         <div></div>
       ) : (
-        <div className="md:flex md:items-center md:justify-between page-heading">
+        <div className="md:flex md:items-center md:justify-between page-heading mr-1">
           {model ? (
             <div className="font-bold heading text-center md:mx-10">
               {model}
@@ -104,7 +104,7 @@ const FormHeader = ({
           ) : (
             <div></div>
           )}
-          <div className="flex sub-heading">
+          <div className="flex sub-heading ">
             <NewButton onClick={() => { hasPermission(onNew, "create") }} />
             <EditButton
               onClick={() => {

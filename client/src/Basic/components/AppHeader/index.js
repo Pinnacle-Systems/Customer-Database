@@ -124,7 +124,7 @@ const AppHeader = ({ setIsGlobalOpen, setLogout }) => {
 
   return (
     <div className="relative">
-      <nav className="nav-bar-bg flex md:items-center flex-wrap p-">
+      <nav className="nav-bar-bg flex md:items-center flex-wrap ">
         <div className="logo-heading flex flex-shrink-0 mr-6 break-words">
           <div className="flex bg-white rounded px-1 m-1 text-black items-end text-2xl">
             <h1>Jewel Shop</h1>

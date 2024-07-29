@@ -598,6 +598,7 @@ model SalesReturnItems {
 model Customer {
   id                Int                 @id @default(autoincrement())
   customerDetId     String?
+  docId             String
   name              String?
   gender            String?
   email             String?
@@ -607,26 +608,26 @@ model Customer {
   state             String?
   pin               String?
   weddingDate       DateTime?
-  members           Int?
+  dob               DateTime?
   workingStatus     String?
   age               Int?
-  PurchaseDate      DateTime?           @default(now())
-  purchaseAmount    Float?
-  totalValue        Float?
   marriedStatus     String?
   Company           Company             @relation(fields: [companyId], references: [id])
   companyId         Int
   customerRelations customerRelations[]
+  createdAt         DateTime            @default(now())
+  panNo             String?
+  image             String?
 }
 
 model customerRelations {
   id          Int       @id @default(autoincrement())
   name        String?
-  gender      String?
+  type        String?
   dob         DateTime?
   phoneNumber String?
-  Customer    Customer? @relation(fields: [customerId], references: [id])
-  customerId  Int?
+  Customer    Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId  Int
 }
 
 model Relation {

@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@etsoo/reactprint": "^1.0.3",
+    "@material-ui/core": "^4.12.4",
     "@prisma/client": "^4.10.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
@@ -29,6 +30,7 @@
     "pm2-windows-startup": "^1.0.3",
     "react-paginate": "^8.2.0",
     "react-to-print": "^2.15.1",
+    "react-webcam": "^7.2.0",
     "socket.io": "^4.6.1"
   },
   "devDependencies": {

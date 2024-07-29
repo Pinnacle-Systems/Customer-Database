@@ -40,7 +40,7 @@ export const Delete = ({ onClick }) => {
 
 export const NewButton = ({ onClick }) => {
     return (
-        <button className='text-violet-400 py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => { onClick(); }}>
+        <button className='text-pink-400 py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[14px]' onClick={() => { onClick(); }}>
             {<FontAwesomeIcon icon={faUserPlus} />} New
         </button>
     )
@@ -48,7 +48,7 @@ export const NewButton = ({ onClick }) => {
 
 export const EditButton = ({ onClick }) => {
     return (
-        <button className='text-yellow-300 py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => onClick()}>
+        <button className='text-black py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[14px]' onClick={() => onClick()}>
             {<FontAwesomeIcon icon={faEdit} />} Edit
         </button>
     )
@@ -56,7 +56,7 @@ export const EditButton = ({ onClick }) => {
 
 export const EditButtonOnly = ({ onClick }) => {
     return (
-        <button className='text-yellow-500 px-2 rounded focus:outline-none focus:shadow-outline' onClick={() => onClick()}>
+        <button className='text-yellow-700 px-2 rounded focus:outline-none focus:shadow-outline text-[14px]' onClick={() => onClick()}>
             {<FontAwesomeIcon icon={faEdit} />}
         </button>
     )
@@ -66,23 +66,23 @@ export const SaveButton = ({ onClick }) => {
     const [isDisabled, setIsDisabled] = useState(false);
 
     const disableButton = () => {
-      setIsDisabled(true);
-      setTimeout(() => {
-        setIsDisabled(false);
-      }, 5000);
+        setIsDisabled(true);
+        setTimeout(() => {
+            setIsDisabled(false);
+        }, 5000);
     };
     return (
         <button disabled={isDisabled}
-            className='text-sky-300 py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+            className='text-sky-500 py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[14px]'
             onClick={() => { onClick(); disableButton(); }}>
-            {<FontAwesomeIcon icon={faSave} />} Save 
+            {<FontAwesomeIcon icon={faSave} />} Save
         </button>
     )
 }
 
 export const CloseButton = ({ onClick }) => {
     return (
-        <button className='text-orange-500 py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => onClick()}>
+        <button className='text-orange-500 py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[14px]' onClick={() => onClick()}>
             {<FontAwesomeIcon icon={faClose} />} Close
         </button>
     )
@@ -90,8 +90,9 @@ export const CloseButton = ({ onClick }) => {
 
 export const DeleteButton = ({ onClick }) => {
     return (
-        <button className='text-red-700 py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => onClick()}>
-            {<FontAwesomeIcon icon={faTrashCan} />} Delete
+        <button type='button' className='text-red-500 flex py-1 p-2 text-center rounded focus:outline-none focus:shadow-outline
+         text-[12px]  justify-items-center  h-5 w-auto' onClick={() => onClick()}>
+            {<FontAwesomeIcon icon={faTrashCan} className='py-1' />}
         </button>
     )
 }
@@ -109,7 +110,7 @@ export const CloseButtonOnly = ({ onClick }) => {
 export const PrintButtonOnly = ({ onClick }) => {
     return (
         <button className='text-pink-500 py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => onClick()}>
-            {<FontAwesomeIcon icon={faPrint} />} Print
+            {<FontAwesomeIcon icon={faPrint} className='text-center flex-items-center py-1' />} Print
         </button>
     )
 }
@@ -122,7 +123,7 @@ export const SearchButton = ({ onClick }) => {
     )
 }
 
-export const ExcelButton = ({ onClick, width=18, height = 18}) => {
+export const ExcelButton = ({ onClick, width = 18, height = 18 }) => {
     return (
         <button className='rounded focus:outline-none focus:shadow-outline' onClick={(e) => onClick(e)}>
             <img src={excelIcon} width={width} height={height} />

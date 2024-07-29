@@ -1,13 +1,51 @@
 import { PrismaClient } from '@prisma/client'
 import { NoRecordFound } from '../configs/Responses.js';
+import { getFinYearStartTimeEndTime } from '../utils/finYearHelper.js';
+import { getTableRecordWithId, getYearShortCodeForFinYear } from '../utils/helper.js';
 
 const prisma = new PrismaClient()
+async function getNextDocId(companyId, shortCode, startTime, endTime) {
+    let lastObject = await prisma.customer.findFirst({
+        where: {
+            companyId: parseInt(companyId),
+            AND: [
+                {
+                    createdAt: {
+                        gte: startTime
+
+                    }
+                },
+                {
+                    createdAt: {
+                        lte: endTime
+                    }
+                }
+            ],
+        },
+        orderBy: {
+            id: 'desc'
+        }
+    });
+    let code = 'JEWEL'
+
+    const compObj = await getTableRecordWithId(companyId, "company")
+    let newDocId = `${compObj.code}/${shortCode}/${code}/1`;
+    if (lastObject) {
+        newDocId = `${compObj.code}/${shortCode}/${code}/${parseInt(lastObject.docId.split("/").at(-1)) + 1}`
+    }
+    return newDocId
+}
+
 
 async function get(req) {
-    const { companyId } = req.query
+    const { companyId, isGetNextDocId, finYearId } = req.query
+    if (isGetNextDocId) {
+        let finYearDate = await getFinYearStartTimeEndTime(finYearId);
+        const shortCode = finYearDate ? getYearShortCodeForFinYear(finYearDate?.startTime, finYearDate?.endTime) : "";
+        let docId = finYearDate ? (await getNextDocId(companyId, shortCode, finYearDate?.startTime, finYearDate?.endTime)) : "";
+        return { statusCode: 0, data: { docId } }
+    }
 
-
-    console.log(companyId, 'id');
     const data = await prisma.customer.findMany(
         {
             where: {
@@ -31,7 +69,7 @@ async function getOne(id) {
 }
 
 async function getPermissions(req) {
-    const { roleId, pageId } = req.params
+    const { roleId, pageId } = req.companyId
     const data = await prisma.roleOnPage.findUnique({
         where: {
             roleId_pageId: {
@@ -46,7 +84,7 @@ async function getPermissions(req) {
 
 
 async function getSearch(req) {
-    const { searchKey } = req.params
+    const { searchKey } = req.companyId
     const data = await prisma.customer.findMany({
         where: {
             OR: [
@@ -68,43 +106,46 @@ async function getSearch(req) {
 
 
 
-async function create(body) {
+async function create(req) {
     const toDate = (dateString) => {
         const date = new Date(dateString);
         return isNaN(date.getTime()) ? null : date; // Return null if date is invalid
     };
+    const image = req.file
+    const { relatives, companyId, finYearId, name, gender, email, phone, city,
+        state, pin, married, weddingDate, working, age, address, dob, panNo, isImageDeleted,
+    } = await req.body;
+    console.log(req.body, 'req');
+    console.log(companyId, 'companyId')
+    let finYearDate = await getFinYearStartTimeEndTime(finYearId);
+    const shortCode = finYearDate ? getYearShortCodeForFinYear(finYearDate?.startTime, finYearDate?.endTime) : "";
+    let docId = finYearDate ? (await getNextDocId(companyId, shortCode, finYearDate?.startTime, finYearDate?.endTime)) : "";
 
-    const { customerData, relatives } = body;
-
-
-    //
-    const customer = customerData[0];
-    console.log(customer, 'sadasd');
     const data = await prisma.customer.create({
         data: {
-            customerDetId: customer.customerId,
-            name: customer.name,
-            gender: customer.gender,
-            email: customer.email,
-            phone: customer.phone,
-            city: customer.city,
-            state: customer.state,
-            pin: customer.pin,
-            marriedStatus: customer.married,
-            weddingDate: toDate(customer.weddingDate),
-            members: parseInt(customer.members),
-            workingStatus: customer.working,
-            age: parseInt(customer.age),
-            PurchaseDate: toDate(customer.purchaseDate),
-            purchaseAmount: parseFloat(customer.purchaseValue),
-            totalValue: parseFloat(customer.totalValue),
-            address: customer.address,
-            companyId: parseInt(1),
+            docId,
+            name: name,
+            gender: gender,
+            email: email,
+            phone: phone,
+            city: city,
+            state: state,
+            pin: pin,
+            marriedStatus: married,
+            weddingDate: toDate(weddingDate),
+            workingStatus: working,
+            age: parseInt(age),
+            address: address,
+            companyId: parseInt(companyId),
+            dob: toDate(dob),
+            panNo: panNo,
+            image: (isImageDeleted && JSON.parse(isImageDeleted)) ? null : (image ? image.filename : undefined),
             customerRelations: {
-                create: relatives.map(relative => ({
-                    gender: relative.type,
+                create: (relatives ? JSON.parse(relatives) : []).map(relative => ({
+                    type: relative.type,
                     name: relative.name,
                     dob: toDate(relative.dob),
+                    phoneNumber: relative.phoneNumber
                 })),
             },
         },
@@ -113,8 +154,15 @@ async function create(body) {
 }
 
 
-async function update(id, body) {
-    const { name, link, active, type, pageGroupId } = await body
+async function update(id, req) {
+    const image = req.file
+    const { relatives, companyId, finYearId, name, gender, email, phone, city,
+        state, pin, married, weddingDate, working, age, address, dob, panNo, isImageDeleted, } = await req.body;
+    const toDate = (dateString) => {
+        const date = new Date(dateString);
+        return isNaN(date.getTime()) ? null : date;
+    };
+
     const dataFound = await prisma.customer.findUnique({
         where: {
             id: parseInt(id)
@@ -126,7 +174,31 @@ async function update(id, body) {
             id: parseInt(id),
         },
         data: {
-            name, link, active, type, pageGroupId: parseInt(pageGroupId)
+            name: name,
+            gender: gender,
+            email: email,
+            phone: phone,
+            city: city,
+            state: state,
+            pin: pin,
+            marriedStatus: married,
+            weddingDate: toDate(weddingDate),
+            workingStatus: working,
+            age: parseInt(age),
+            address: address,
+            companyId: parseInt(companyId),
+            dob: toDate(dob),
+            panNo: panNo,
+            image: (isImageDeleted && JSON.parse(isImageDeleted)) ? null : (image ? image.filename : undefined),
+            customerRelations: {
+                deleteMany: {},
+                create: (relatives ? JSON.parse(relatives) : []).map(relative => ({
+                    type: relative.type,
+                    name: relative.name,
+                    dob: toDate(relative.dob),
+                    phoneNumber: relative.phoneNumber
+                })),
+            },
         }
     })
     return { statusCode: 0, data };

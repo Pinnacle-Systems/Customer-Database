@@ -55,7 +55,7 @@ const ActiveTabList = () => {
     "CURRENT STOCK": <CurrentStock />,
     "PROFIT REPORT": <MonthlyProfit />,
     "CREATE CUSTOMER": <CreateCustomer />,
-    "CREATE RELATION": <Relation />,
+    "CREATE RELATIONSHIP": <Relation />,
     "CUSTOMER DATA": <CustomerReport />
 
 
@@ -72,13 +72,13 @@ const ActiveTabList = () => {
           {currentShowingTabs.map((tab, index) => (
             <div
               key={index}
-              className={`p-1 rounded-t-md text-[10px] flex justify-center gap-1 ${tab.active ? "bg-red-300" : "bg-gray-300"
+              className={`p-1 rounded-t-md text-[10px] flex justify-center gap-1 ${tab.active ? "bg-lime-400 font-semibold" : "bg-gray-300"
                 }`}
             >
               <button
                 onClick={() => {
                   dispatch(push({ id: tab.id }));
-                }}
+                }} className="text-[13px]"
               >
                 {tab.name}
                 {console.log(tab.name, 'nme')}

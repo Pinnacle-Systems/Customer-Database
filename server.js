@@ -53,6 +53,12 @@ const path = __dirname + '/client/build/';
 
 app.use(express.static(path));
 
+app.get("/retreiveFile/:fileName", (req, res) => {
+  const { fileName } = req.params
+  res.sendFile(__dirname + "/uploads/" + fileName);
+})
+
+
 
 app.get('/', function (req, res) {
   res.sendFile(path + "index.html");
@@ -90,8 +96,6 @@ app.use("/salesReturn", salesReturn)
 app.use('/uom', uom)
 app.use('/relation', relation)
 app.use("/customer", customer)
-
-
 
 
 const httpServer = createServer(app);

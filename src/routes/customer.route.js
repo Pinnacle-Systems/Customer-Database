@@ -1,9 +1,9 @@
 import { Router } from 'express';
 const router = Router();
-import { get, getPermissions, getOne, getSearch, create, update, remove } from '../controllers/customer.controller.js';
+import { get, getOne, getSearch, create, update, remove } from '../controllers/customer.controller.js';
+import multerUpload from '../utils/multerUpload.js';
 
-
-router.post('/', create);
+router.post('/', multerUpload.single('image'), create);
 
 router.get('/', get);
 
@@ -11,7 +11,7 @@ router.get('/:id', getOne);
 
 router.get('/search/:searchKey', getSearch);
 
-router.put('/:id', update);
+router.put('/:id', multerUpload.single('image'), update);
 
 router.delete('/:id', remove);
 
