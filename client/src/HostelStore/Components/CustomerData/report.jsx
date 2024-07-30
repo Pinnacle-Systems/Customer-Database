@@ -3,6 +3,7 @@ import { useGetCustomersQuery } from '../../../redux/services/createCustomer.ser
 import secureLocalStorage from 'react-secure-storage';
 import moment from 'moment';
 
+
 const CustomerReport = () => {
     const [customers, setCustomers] = useState([]);
     const [currentOpenNumber, setCurrentOpenNumber] = useState(null);

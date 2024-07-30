@@ -3,6 +3,10 @@ import { useAddCustomerMutation, useDeleteCustomerMutation, useGetCustomersQuery
 import { toast } from 'react-toastify';
 import { useGetRelationQuery } from '../../../redux/services/RelationMasterService';
 import secureLocalStorage from 'react-secure-storage';
+import { PDFViewer } from '@react-pdf/renderer';
+import tw from "../../../Utils/tailwind-react-pdf";
+import Modal from "../../../UiComponents/Modal";
+import bg from "../../../assets/bg.webp"
 import FormHeader from '../../../Basic/components/FormHeader';
 import moment from 'moment';
 import Barcode from 'react-barcode';
@@ -11,6 +15,8 @@ import { getCommonParams } from '../../../Utils/helper';
 import LiveWebCam from '../../../Basic/components/LiveWebCam copy';
 import { useGetStateQuery } from '../../../redux/services/StateMasterService';
 import { useGetCityQuery } from '../../../redux/services/CityMasterService';
+import IdCardPrint from './IdCardPrint.js';
+import BarcodeGenerator from './Barcode.js';
 const CreateCustomer = () => {
     const [rowsPerPage, setRowsPerPage] = useState(6);
     const [page, setPage] = useState(0);
@@ -18,7 +24,7 @@ const CreateCustomer = () => {
     const [relatives, setRelatives] = useState([{ type: '', name: '', dob: '', weddingDate: '', phoneNumber: '' }]);
     const [id, setId] = useState('')
     const [picture, setPicture] = useState('')
-
+    const [printModalOpen, setPrintModalOpen] = useState(false);
     const [customerData, setCustomerData] = useState({ customerId: '', name: '', gender: '', email: '', phone: '', city: '', state: '', pin: '', married: '', weddingDate: '', members: '', working: '', age: '', address: '', dob: '', panNo: '', picture: '' });
     const [addCustomer] = useAddCustomerMutation();
     const [updateCustomers] = useUpdateCustomerMutation();
@@ -47,7 +53,6 @@ const CreateCustomer = () => {
         }
     }, [dt]);
 
-    console.log(phoneOptions, 'phone');
     const handleCustomerChange = useCallback((e) => {
         const { name, value } = e.target;
         setCustomerData(prev => {
@@ -59,6 +64,9 @@ const CreateCustomer = () => {
             return updatedCustomers;
         });
     }, []);
+    const handlePrint = () => {
+        setPrintModalOpen(true); 
+      }
     const handlePhoneChange = (e) => {
         const phone = e.target.value;
         const existingCustomer = dt?.data?.find(customer => customer.phone === phone);
@@ -194,7 +202,19 @@ const CreateCustomer = () => {
 
     return (
         <div className="h-auto flex customerData?s-center justify-center  ">
-            <div className="bg-white  rounded shadow-md w-full max-w-[100%] h-[90%] px-2 p-1">
+        <>
+        <Modal isOpen={printModalOpen} onClose={() => setPrintModalOpen(false)} widthClass={"w-[90%] h-[90%]"} >
+        <PDFViewer style={tw("w-full h-full")}>
+          <IdCardPrint
+            name={customerData?.name || ""}
+            phoneNumber = {customerData.phone || ""}
+            picture = {picture}
+            dob ={moment.utc(customerData?.dob).format('YYYY-MM-DD')}
+            docId = {docId}
+          />
+        </PDFViewer>
+      </Modal>
+        <div className="bg-white  rounded shadow-md w-full max-w-[100%] h-[90%] px-2 p-1">
                 <div className='flex w-full justify-between bg-gray-400  customerData?s-center rounded p-1'>
                     <div className="flex w-auto text- justify-center">
                         <input
@@ -221,6 +241,8 @@ const CreateCustomer = () => {
                         saveData={saveData}
                         setReadOnly={setReadOnly}
                         deleteData={deleteData}
+                        onPrint={id ? handlePrint : null}
+
                     />
                 </div>
                 <form onSubmit={saveData} className="flex flex-col w-full ">
@@ -581,6 +603,8 @@ const CreateCustomer = () => {
 
                 </form >
             </div >
+        </>
+        
         </div >
     );
 };
