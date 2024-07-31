@@ -10,7 +10,7 @@ const NumericCard = ({ misData }) => {
     const loss = misData?.data?.loss || '';
     const data = [
         {
-            name: "Turn Over",
+            name: "Total Visits",
             borderColor: "#1F588B",
             value: `₹${(totalTurnOver?.currentValue || 0).toLocaleString()}`,
             qty: `${(totalTurnOver?.currentQty || 0).toLocaleString()}`,
@@ -19,7 +19,7 @@ const NumericCard = ({ misData }) => {
 
         },
         {
-            name: "Profit",
+            name: "Total Purchase",
             borderColor: "#62AAA3",
             value: `₹${(profit?.currentValue || 0).toLocaleString().toLocaleString()}`,
             qty: `${(profit?.currentQty || 0).toLocaleString()}`,
@@ -44,14 +44,7 @@ const NumericCard = ({ misData }) => {
             previousValue: `₹${(topCustomers?.prevValue || 0).toLocaleString()}`,
             previousQty: `₹${(topCustomers?.prevQty || 0).toLocaleString()}`,
         },
-        {
-            name: "Loss",
-            borderColor: "border-[#D49B37]",
-            value: `₹${(loss?.currentValue || 0).toLocaleString()}`,
-            qty: `₹${(loss?.currentQty || 0).toLocaleString()}`,
-            previousValue: `₹${(loss?.prevValue || 0).toLocaleString()}`,
-            previousQty: `₹${(loss?.prevQty || 0).toLocaleString()}`,
-        },
+
     ]
     return (
         <div className='flex justify-around w-full h-full'>
