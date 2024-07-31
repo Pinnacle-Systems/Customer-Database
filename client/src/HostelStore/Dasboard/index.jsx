@@ -24,7 +24,7 @@ const MisDashboard = () => {
             <Header />
             <div className='flex flex-col w-full items-center justify-center gap-5 mt-2'>
                 <div className='flex flex-col w-full'>
-                    <h1 className='font-semibold'>customer data</h1>
+                    <h1 className='font-semibold'>Customer Info</h1>
                     <CusBirthdayList misData={misData} />
                 </div>
                 {/* <div className='flex flex-col'>

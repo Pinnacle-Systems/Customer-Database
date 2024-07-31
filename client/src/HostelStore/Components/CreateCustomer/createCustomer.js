@@ -16,10 +16,11 @@ import LiveWebCam from '../../../Basic/components/LiveWebCam copy';
 import { useGetStateQuery } from '../../../redux/services/StateMasterService';
 import { useGetCityQuery } from '../../../redux/services/CityMasterService';
 import IdCardPrint from './IdCardPrint.js';
-import BarcodeGenerator from './Barcode.js';
-import Footer from '../../../Basic/components/FormFooter/Footer';
+import SingleImageFileUploadComponent from '../../../Basic/components/SingleImageUploadComponent/index.js';
+
 const CreateCustomer = () => {
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [imageFile, setImageFile] = useState(null);
     const [page, setPage] = useState(0);
     const [readOnly, setReadOnly] = useState(true);
     const [relatives, setRelatives] = useState([{ type: '', name: '', dob: '', weddingDate: '', phoneNumber: '' }]);
@@ -75,7 +76,7 @@ const CreateCustomer = () => {
         setId(existingCustomer?.id ? existingCustomer?.id : '')
         if (existingCustomer) {
             setCustomerData(existingCustomer);
-            setPicture(existingCustomer.image);
+            setImageFile(existingCustomer.image);
             setRelatives(existingCustomer.customerRelations);
             setReadOnly(true)
         } else {
@@ -131,7 +132,7 @@ const CreateCustomer = () => {
         setPicture('')
 
     }
-
+    console.log(imageFile, 'image');
     const saveData = async () => {
 
         if (!customerData.phone) {
@@ -147,12 +148,13 @@ const CreateCustomer = () => {
         try {
             const formData = new FormData();
             const postData = { ...customerData, relatives: JSON.stringify(relatives), companyId, id, finYearId }
+
             for (let key in postData) {
                 formData.append(key, postData[key]);
             }
-            if (picture instanceof File) {
-                formData.append("image", picture);
-            } else if (!picture) {
+            if (imageFile instanceof File) {
+                formData.append("image", imageFile);
+            } else if (!imageFile) {
                 formData.append("isImageDeleted", true);
             }
 
@@ -205,8 +207,12 @@ const CreateCustomer = () => {
     const handleBlur = () => {
         setIsWhatsAppDisabled(true);
     };
+
     return (
         <div className=" flex flex-col w-full h-[95%]  justify-between ">
+            <Modal isOpen={cameraOpen} onClose={() => setCameraOpen(false)}>
+                <LiveWebCam picture={imageFile} setPicture={setImageFile} onClose={() => setCameraOpen(false)} />
+            </Modal>
             <Modal isOpen={printModalOpen} onClose={() => setPrintModalOpen(false)} widthClass={"w-[90%] h-[90%]"} >
                 <PDFViewer style={tw("w-full h-full")}>
                     <IdCardPrint
@@ -483,8 +489,8 @@ const CreateCustomer = () => {
                                     </div>
                                 </div>
                                 <div className='grid grid-cols-2 w-[18%]'>
-                                    <div className="flex justify-center items-center">
-                                        <LiveWebCam picture={picture} setPicture={setPicture} readOnly={readOnly} />
+                                    <div className="flex justify-center items-center px-2 rounded">
+                                        <SingleImageFileUploadComponent setWebCam={setCameraOpen} disabled={readOnly} imageFile={imageFile} setImageFile={setImageFile} />
                                     </div>
                                     <div className="flex justify-center items-center rotate-90 h-3/4">
                                         <Barcode value={docId} height={100} displayValue={false} width={1.25} />
@@ -506,6 +512,7 @@ const CreateCustomer = () => {
                                     <th className="border border-gray-300 px-1 py-1">Contact Number</th>
                                     <th className="border border-gray-300 px-1 py-1">Date of Birth</th>
                                     <th className="border border-gray-300 px-1 py-1">Wedding Date</th>
+
                                     <th className="border border-gray-300 px-1 py-1"> <button
                                         type="button"
                                         onClick={addNewRow}

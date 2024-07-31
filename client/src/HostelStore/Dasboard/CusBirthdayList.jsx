@@ -34,13 +34,13 @@ const CusBirthdayList = ({ misData }) => {
         <div className="w-full p-2 flex border gap-3 letter">
             <div className='flex flex-col items-end w-full'>
                 <div className='flex items-center '> <h1 className="text-[14px] font-semiBold">
-                    Selected Date
+                    Selected Date :
                 </h1>
                     <input
                         type="date"
                         value={selectedDate}
                         onChange={(e) => setSelectedDate(e.target.value)}
-                        className=" p-1 border rounded"
+                        className=" p-1 border rounded text-[12px]"
                     /></div>
                 <div className='w-full flex gap-5 border'>
                     <div className="w-[50%]">
@@ -52,7 +52,9 @@ const CusBirthdayList = ({ misData }) => {
                                         <th className="border p-1 text-left text-[14px]">No</th>
                                         <th className="border p-1 text-left text-[14px]">Name</th>
                                         <th className="border p-1 text-left text-[14px]">Phone</th>
-                                        <th className="border p-1 text-left text-[14px]">Relations</th>
+                                        <th className="border p-1 text-left text-[14px]">Whishes</th>
+                                        <th className="border p-1 text-left text-[14px]">Select</th>
+
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -73,6 +75,9 @@ const CusBirthdayList = ({ misData }) => {
                                                     )
                                                 ))}
                                             </td>
+                                            <td className='flex p-1 w-full h-full gap-2 items-center justify-center'><input type="checkbox" />
+
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -85,10 +90,11 @@ const CusBirthdayList = ({ misData }) => {
                             <table className="min-w-full border">
                                 <thead>
                                     <tr className='border'>
-                                        <th className="border p-1 text-left text-[14px]">No</th>
+                                        <th className="border p-1 text-left text-[14px] w-3">No</th>
                                         <th className="border p-1 text-left text-[14px]">Name</th>
                                         <th className="border p-1 text-left text-[14px]">Phone</th>
-                                        <th className="border p-1 text-left text-[14px]">Relations</th>
+                                        <th className="border p-1 text-left text-[14px]">Whishes</th>
+                                        <th className="border p-1 text-left text-[14px]">Select</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -108,6 +114,9 @@ const CusBirthdayList = ({ misData }) => {
                                                         </div>
                                                     )
                                                 ))}
+                                            </td>
+                                            <td className='flex p-1 w-full h-full gap-2 items-center justify-center'><input type="checkbox" />
+
                                             </td>
                                         </tr>
                                     ))}
