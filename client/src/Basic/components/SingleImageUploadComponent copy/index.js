@@ -1,13 +1,14 @@
 import React from 'react';
 import { EMPTY_PROFILE_IMAGE, IMAGE_ICON } from '../../../icons';
+import { getImageUrlPath } from '../../../Constants';
 
-const SingleImageFileUploadComponent = ({ pictire, disabled, setWebCam, editProfileImage = true }) => {
+const SingleImageFileUploadComponent = ({ image, disabled, setWebCam, editProfileImage = true }) => {
     const imageFormatter = () => {
-        if (pictire) {
-            if (typeof (pictire) === "object") {
-                return URL.createObjectURL(pictire)
+        if (image) {
+            if (image instanceof File) {
+                return URL.createObjectURL(image)
             } else {
-                return pictire
+                return getImageUrlPath(image)
             }
         }
         return null
@@ -17,16 +18,17 @@ const SingleImageFileUploadComponent = ({ pictire, disabled, setWebCam, editProf
     return (
         <div className='flex gap-1 flex-col items-center'>
             <div>
-                {Boolean(pictire) ?
+                {Boolean(image) ?
                     <img style={{ height: imageHeight, width: imageWidth, objectFit: 'cover' }}
                         src={imageFormatter()}
+                        alt=''
                     />
                     :
                     <EMPTY_PROFILE_IMAGE height={imageHeight} width={imageWidth} />
                 }
             </div>
             {
-                editProfileImage ?
+                (editProfileImage && (!disabled)) ?
                     <div>
                         <button style={{ width: imageWidth }} className="text-sm w-full border bg-blue-800 p-1 rounded text-white" disabled={disabled} onClick={() => { setWebCam(true) }} htmlFor="profileImage" >{IMAGE_ICON} Edit Profile Image</button>
                     </div>

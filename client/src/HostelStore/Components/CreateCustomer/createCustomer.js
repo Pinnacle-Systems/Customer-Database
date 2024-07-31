@@ -35,6 +35,7 @@ const CreateCustomer = () => {
     const [search, setSearch] = useState('')
     const [isWhatsAppDisabled, setIsWhatsAppDisabled] = useState(false);
     const { branchId, finYearId, companyId } = getCommonParams()
+    const [cameraOpen, setCameraOpen] = useState(false);
 
     const { data: allData, isLoading, isFetching, } = useGetRelationQuery({ searchParams: searchValue });
     const { data: docData } = useGetCustomersQuery({ params: { companyId, isGetNextDocId: true, finYearId } });
@@ -599,8 +600,8 @@ const CreateCustomer = () => {
 
                 </form >
             </div >
-        </>
-        
+
+
 
         </div >
     );
