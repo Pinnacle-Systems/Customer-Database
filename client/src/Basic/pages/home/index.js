@@ -46,7 +46,7 @@ const Home = () => {
         <div className="flex-1">
           <ActiveTabList />
         </div>
-        {/* <AppFooter /> */}
+        <AppFooter />
       </div>
     </>
   );

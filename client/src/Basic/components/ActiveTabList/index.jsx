@@ -14,6 +14,8 @@ import CompanyMaster from "../CompanyMaster";
 import { useState } from "react";
 import useOutsideClick from "../../../CustomHooks/handleOutsideClick";
 import { PartyCategoryMaster, PartyMaster, ProductBrandMaster, ProductCategoryMaster, ProductMaster, PurchaseBillEntry, PurchaseRegister, PurchaseReturn, SalesBillEntry, SalesRegister, SalesReturn, UomMaster, StockRegister, MonthlySales, MonthlyPurchase, CurrentStock, MonthlyProfit, CreateCustomer, Relation, CustomerReport } from "../../../HostelStore/Components";
+import Footer from "../FormFooter/Footer";
+import CustomerDashboard from "../../../HostelStore/Dasboard";
 
 
 const ActiveTabList = () => {
@@ -56,9 +58,8 @@ const ActiveTabList = () => {
     "PROFIT REPORT": <MonthlyProfit />,
     "CREATE CUSTOMER": <CreateCustomer />,
     "CREATE RELATIONSHIP": <Relation />,
-    "CUSTOMER DATA": <CustomerReport />
-
-
+    "CUSTOMER DATA": <CustomerReport />,
+    "CUSTOMER DASHBOARD": <CustomerDashboard />
   };
   const innerWidth = window.innerWidth;
   const itemsToShow = innerWidth / 130;
@@ -124,12 +125,12 @@ const ActiveTabList = () => {
           </ul>
         }
       </div>
-      {/* <MonthlySales /> */}
       {openTabs.tabs.map((tab, index) => (
         <div key={index} className={`${tab.active ? "block" : "hidden"}`}>
           {tabs[tab.name]}
         </div>
       ))}
+
     </div>
   );
 };

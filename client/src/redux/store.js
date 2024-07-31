@@ -6,7 +6,8 @@ import {
   finYearMasterApi, rolesMasterApi, employeeMasterApi, userMasterApi,
   branchMasterApi, companyMasterApi, pageGroupMasterApi, productBrandMasterApi, productCategoryMasterApi, productMasterApi, partyMasterApi, partyCategoryMasterApi, purchaseBillApi, stockApi, salesBillApi, purchaseReturnApi, salesReturnApi, uomMasterApi,
   customerApi,
-  relationDetailsApi
+  relationDetailsApi,
+  customerRelationsApi
 } from "./services"
 
 
@@ -44,8 +45,8 @@ const commonReducers = {
   salesReturn: salesReturnApi.reducer,
   uomMaster: uomMasterApi.reducer,
   customer: customerApi.reducer,
-  relation: relationDetailsApi.reducer
-
+  relation: relationDetailsApi.reducer,
+  customerRelations: customerRelationsApi.reducer
 
 }
 const commonMiddleware = [countryMasterApi.middleware,
@@ -73,7 +74,8 @@ purchaseReturnApi.middleware,
 salesReturnApi.middleware,
 uomMasterApi.middleware,
 customerApi.middleware,
-relationDetailsApi.middleware
+relationDetailsApi.middleware,
+customerRelationsApi.middleware
 
 ];
 

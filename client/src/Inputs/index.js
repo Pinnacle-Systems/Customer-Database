@@ -99,6 +99,7 @@ export const DropdownInput = ({ name, beforeChange = () => { }, onBlur = null, o
                 <option value="" hidden={!clear}>Select</option>
                 {options.map((option, index) => <option key={index} value={option.value} >
                     {option.show}
+                    {console.log(option.value, 'va;')}
                 </option>)}
             </select>
         </div>

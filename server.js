@@ -21,7 +21,8 @@ import {
   salesReturn,
   uom,
   relation,
-  customer
+  customer,
+  customerRelations
 } from './src/routes/index.js';
 
 import { socketMain } from './src/sockets/socket.js';
@@ -96,6 +97,7 @@ app.use("/salesReturn", salesReturn)
 app.use('/uom', uom)
 app.use('/relation', relation)
 app.use("/customer", customer)
+app.use("/customerRelations", customerRelations)
 
 
 const httpServer = createServer(app);

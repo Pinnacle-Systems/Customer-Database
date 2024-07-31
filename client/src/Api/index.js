@@ -13,9 +13,7 @@ export const ROLES_API = "roles";
 export const SUBSCRIPTION_API = "subscriptions";
 export const FIN_YEAR_API = "finYear";
 export const EMPLOYEE_CATEGORY_API = "employeeCategories";
-
 export const PARTY_CATEGORY_API = "partyCategories"
-
 export const PARTY_API = "party"
 export const PRODUCT_BRAND_API = "productBrand"
 export const PRODUCT_CATEGORY_API = "productCategory"
@@ -28,6 +26,7 @@ export const SALES_RETURN_API = "salesReturn"
 export const UOM_API = "uom"
 export const CREATE_CUSTOMER = 'customer'
 export const CREATE_RELATION = 'relation'
+export const CUSTOMER_RELATION = 'customerRelations'
 
 
 

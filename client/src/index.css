@@ -10,7 +10,32 @@ label {
   font-family: 'Roboto', sans-serif;
   z-index: 0;
   background-color: white;
-  text-transform: uppercase;
+
+}
+
+body::first-letter {
+  text-transform: capitalize;
+}
+
+.cuttedBorder1 {
+  border-image: linear-gradient(#1F588B 30%, transparent 0 70%, #1F588B 0) 2;
+
+}
+
+.cuttedBorder2 {
+  border-image: linear-gradient(#62AAA3 30%, transparent 0 70%, #62AAA3 0) 2;
+}
+
+.cuttedBorder3 {
+  border-image: linear-gradient(#96A669 30%, transparent 0 70%, #96A669 0) 2;
+}
+
+.cuttedBorder4 {
+  border-image: linear-gradient(#D49B37 30%, transparent 0 70%, #D49B37 0) 2;
+}
+
+.cuttedBorder5 {
+  border-image: linear-gradient(#af3f0b 30%, transparent 0 70%, #af3f0b 0) 2;
 }
 
 .Select {
@@ -21,6 +46,10 @@ label {
 
 .Select.is-open {
   z-index: 1 !important;
+}
+
+.letter:first-letter {
+  text-transform: uppercase;
 }
 
 .Select-menu {
@@ -60,7 +89,7 @@ label {
   }
 
   .page-heading {
-    @apply bg-white rounded text-black;
+    @apply rounded text-black;
   }
 
   .nav-bar-bg {
@@ -178,4 +207,14 @@ label {
   .no-print {
     display: none;
   }
+}
+
+.pageFooter {
+  background-color: rgb(41, 46, 53);
+  color: white;
+  text-transform: lowercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }

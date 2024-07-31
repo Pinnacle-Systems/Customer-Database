@@ -40,7 +40,7 @@ export const Delete = ({ onClick }) => {
 
 export const NewButton = ({ onClick }) => {
     return (
-        <button className='text-pink-400 py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[14px]' onClick={() => { onClick(); }}>
+        <button className='text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[14px]' onClick={() => { onClick(); }}>
             {<FontAwesomeIcon icon={faUserPlus} />} New
         </button>
     )
@@ -73,7 +73,7 @@ export const SaveButton = ({ onClick }) => {
     };
     return (
         <button disabled={isDisabled}
-            className='text-sky-500 py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[14px]'
+            className='text-green-300 py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[14px] '
             onClick={() => { onClick(); disableButton(); }}>
             {<FontAwesomeIcon icon={faSave} />} Save
         </button>
@@ -90,9 +90,8 @@ export const CloseButton = ({ onClick }) => {
 
 export const DeleteButton = ({ onClick }) => {
     return (
-        <button type='button' className='text-red-500 flex py-1 p-2 text-center rounded focus:outline-none focus:shadow-outline
-         text-[12px]  justify-items-center  h-5 w-auto' onClick={() => onClick()}>
-            {<FontAwesomeIcon icon={faTrashCan} className='py-1' />}
+        <button type='button' className='text-red-500 py-2 px-4 rounded focus:outline-none focus:shadow-outline text-[12px]' onClick={() => onClick()}>
+            {<FontAwesomeIcon icon={faTrashCan} />} Delete
         </button>
     )
 }
@@ -110,7 +109,7 @@ export const CloseButtonOnly = ({ onClick }) => {
 export const PrintButtonOnly = ({ onClick }) => {
     return (
         <button className='text-pink-500 py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => onClick()}>
-            {<FontAwesomeIcon icon={faPrint} className='text-center flex-items-center py-1' />} Print
+            {<FontAwesomeIcon icon={faPrint} />} Print
         </button>
     )
 }

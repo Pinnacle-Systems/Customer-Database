@@ -25,6 +25,7 @@ export { default as salesReturnApi } from './SalesReturnService'
 export { default as uomMasterApi } from "./UomMasterService"
 export { default as customerApi } from "./createCustomer.service"
 export { default as relationDetailsApi } from "./RelationMasterService"
+export { default as customerRelationsApi } from "./customerRelationService"
 
 
 

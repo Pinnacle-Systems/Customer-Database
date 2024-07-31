@@ -17,22 +17,23 @@ import { useGetStateQuery } from '../../../redux/services/StateMasterService';
 import { useGetCityQuery } from '../../../redux/services/CityMasterService';
 import IdCardPrint from './IdCardPrint.js';
 import BarcodeGenerator from './Barcode.js';
+import Footer from '../../../Basic/components/FormFooter/Footer';
 const CreateCustomer = () => {
-    const [rowsPerPage, setRowsPerPage] = useState(6);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
     const [readOnly, setReadOnly] = useState(true);
     const [relatives, setRelatives] = useState([{ type: '', name: '', dob: '', weddingDate: '', phoneNumber: '' }]);
     const [id, setId] = useState('')
     const [picture, setPicture] = useState('')
     const [printModalOpen, setPrintModalOpen] = useState(false);
-    const [customerData, setCustomerData] = useState({ customerId: '', name: '', gender: '', email: '', phone: '', city: '', state: '', pin: '', married: '', weddingDate: '', members: '', working: '', age: '', address: '', dob: '', panNo: '', picture: '' });
+    const [customerData, setCustomerData] = useState({ customerId: '', name: '', gender: '', email: '', phone: '', city: '', state: '', pin: '', married: '', weddingDate: '', members: '', working: '', age: '', address: '', dob: '', panNo: '', picture: '', whatsNum: '' });
     const [addCustomer] = useAddCustomerMutation();
     const [updateCustomers] = useUpdateCustomerMutation();
     const [removeData] = useDeleteCustomerMutation()
     const [searchValue, setSearchValue] = useState()
     const [phoneOptions, setPhoneOptions] = useState([]);
     const [search, setSearch] = useState('')
-
+    const [isWhatsAppDisabled, setIsWhatsAppDisabled] = useState(false);
     const { branchId, finYearId, companyId } = getCommonParams()
 
     const { data: allData, isLoading, isFetching, } = useGetRelationQuery({ searchParams: searchValue });
@@ -65,8 +66,8 @@ const CreateCustomer = () => {
         });
     }, []);
     const handlePrint = () => {
-        setPrintModalOpen(true); 
-      }
+        setPrintModalOpen(true);
+    }
     const handlePhoneChange = (e) => {
         const phone = e.target.value;
         const existingCustomer = dt?.data?.find(customer => customer.phone === phone);
@@ -123,7 +124,7 @@ const CreateCustomer = () => {
     };
 
     const handleClear = () => {
-        setCustomerData({ customerId: '', name: '', gender: '', email: '', phone: '', city: '', state: '', pin: '', married: '', weddingDate: '', members: '', working: '', age: '', purchaseDate: '', purchaseValue: '', totalValue: '', address: '', image: '', dob: '' });
+        setCustomerData({ customerId: '', name: '', gender: '', email: '', phone: '', city: '', state: '', pin: '', married: '', weddingDate: '', members: '', working: '', age: '', purchaseDate: '', purchaseValue: '', totalValue: '', address: '', image: '', dob: '', whatsNum: '' });
         setRelatives([{ type: '', name: '', dob: '', weddingDate: '', phoneNumber: '' }]);
         setSearch('')
         setPicture('')
@@ -200,22 +201,24 @@ const CreateCustomer = () => {
         }
     };
 
+    const handleBlur = () => {
+        setIsWhatsAppDisabled(true);
+    };
     return (
-        <div className="h-auto flex customerData?s-center justify-center  ">
-        <>
-        <Modal isOpen={printModalOpen} onClose={() => setPrintModalOpen(false)} widthClass={"w-[90%] h-[90%]"} >
-        <PDFViewer style={tw("w-full h-full")}>
-          <IdCardPrint
-            name={customerData?.name || ""}
-            phoneNumber = {customerData.phone || ""}
-            picture = {picture}
-            dob ={moment.utc(customerData?.dob).format('YYYY-MM-DD')}
-            docId = {docId}
-          />
-        </PDFViewer>
-      </Modal>
-        <div className="bg-white  rounded shadow-md w-full max-w-[100%] h-[90%] px-2 p-1">
-                <div className='flex w-full justify-between bg-gray-400  customerData?s-center rounded p-1'>
+        <div className=" flex flex-col w-full h-[95%]  justify-between ">
+            <Modal isOpen={printModalOpen} onClose={() => setPrintModalOpen(false)} widthClass={"w-[90%] h-[90%]"} >
+                <PDFViewer style={tw("w-full h-full")}>
+                    <IdCardPrint
+                        name={customerData?.name || ""}
+                        phoneNumber={customerData.phone || ""}
+                        picture={picture}
+                        dob={moment.utc(customerData?.dob).format('YYYY-MM-DD')}
+                        docId={docId}
+                    />
+                </PDFViewer>
+            </Modal>
+            <div className="rounded shadow-md w-[100%] px-2 overflow-auto">
+                <div className='flex w-full justify-between bg-gray-400  items-center rounded p-1'>
                     <div className="flex w-auto text- justify-center">
                         <input
                             type="number"
@@ -223,7 +226,7 @@ const CreateCustomer = () => {
                             list="phoneOptions"
                             value={search}
                             onChange={handlePhoneChange}
-                            className="w-full border border-gray-300 rounded"
+                            className="w-full border border-gray-300 rounded font-semibold"
                             placeholder='Search phone number'
                             maxlength="10"
                             autoFocus
@@ -246,25 +249,41 @@ const CreateCustomer = () => {
                     />
                 </div>
                 <form onSubmit={saveData} className="flex flex-col w-full ">
-                    <div className='flex flex-col gap-8 h-full  border-[2px] px-3 pb-3'>
+                    <div className='flex flex-col gap-4  border-[2px] h-[100%]'>
 
-                        <div className='flex w-full pt-2'>
-                            <div className='flex flex-col w-full '>
-                                <div className='grid grid-cols-1 md:grid-cols-6 w-ful  gap-2 text-[12px]'>
+                        <div className='flex  pt-2 w-full h-full'>
+                            <div className='flex    w-[100%] '>
+                                <div className='grid grid-cols-1 md:grid-cols-6 w-[100%]   gap-2 text-[12px] '>
                                     <div className="flex flex-col">
-                                        <label htmlFor="phone" className="text-black">Phone Number : <span className='text-red-600'>*</span></label>
-                                        <input readOnly={readOnly}
+                                        <label htmlFor="phone" className="text-black">Phone Number: <span className="text-red-600">*</span></label>
+                                        <input
+                                            readOnly={readOnly}
                                             type="text"
                                             name="phone"
-                                            maxlength="10"
+                                            maxLength="10"
                                             list="phoneOptions"
                                             value={customerData.phone || ''}
                                             onChange={(e) => handleCustomerChange(e)}
                                             className="w-full px-1 py-1 border border-gray-300 rounded"
                                             required
                                         />
-
                                     </div>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="whatsapp" className="text-black">WhatsApp Number:</label>
+                                        <input
+                                            readOnly={readOnly}
+                                            type="text"
+                                            name="whatsNum"
+                                            maxLength="10"
+                                            list="phoneOptions"
+                                            value={customerData.whatsNum || customerData.phone}
+                                            onChange={(e) => handleCustomerChange(e)}
+                                            className="w-full px-1 py-1 border border-gray-300 rounded"
+                                            onBlur={handleBlur}
+                                            disabled={!customerData.phone} // Disable input if phone number is available
+                                        />
+                                    </div>
+
                                     <div className="flex flex-col">
                                         <label htmlFor="customerId" className="text-black">Customer ID : <span className='text-red-600'>*</span></label>
                                         <input readOnly={readOnly}
@@ -354,7 +373,22 @@ const CreateCustomer = () => {
                                             className="w-full px-1 py-1 border border-gray-300 rounded"
                                             placeholder="panNo"
                                         />
-
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="working" className="text-black">Working Status:</label>
+                                        <select disabled={readOnly}
+                                            id="working"
+                                            name="working"
+                                            value={customerData?.working || customerData?.
+                                                workingStatus
+                                                || ''}
+                                            onChange={(e) => handleCustomerChange(e)}
+                                            className="w-full px-3 py-1 border border-gray-300 rounded  focus:outline-none focus:ring focus:border-blue-300"
+                                        >
+                                            <option readOnly={readOnly} value="">Select</option>
+                                            <option readOnly={readOnly} value="working">Working</option>
+                                            <option readOnly={readOnly} value="notWorking">Not Working</option>
+                                        </select>
                                     </div>
                                     <div className="flex flex-col">
                                         <label htmlFor="married" className="text-black">Married Status:</label>
@@ -383,17 +417,7 @@ const CreateCustomer = () => {
                                     </div>
 
 
-                                    {/* <div className="flex flex-col">
-                                        <label htmlFor="state" className="text-black">State:</label>
-                                        <input readOnly={readOnly}
-                                            type="text"
-                                            name="state"
-                                            value={customerData?.state || ''}
-                                            onChange={(e) => handleCustomerChange(e)}
-                                            className="w-full px-1 py-1 border border-gray-300 rounded"
-                                            placeholder="State"
-                                        />
-                                    </div> */}
+
                                     <div className="flex flex-col">
                                         <label htmlFor="state" className="text-black">State:</label>
                                         <select disabled={readOnly}
@@ -416,7 +440,7 @@ const CreateCustomer = () => {
                                         </select>
                                     </div>
                                     <div className="flex flex-col">
-                                        <label htmlFor="state" className="text-black">State:</label>
+                                        <label htmlFor="state" className="text-black">City:</label>
                                         <select disabled={readOnly}
                                             type="text"
                                             name="city"
@@ -435,17 +459,6 @@ const CreateCustomer = () => {
                                             )}
                                         </select>
                                     </div>
-                                    {/* <div className="flex flex-col">
-                                        <label htmlFor="city" className="text-black">City:</label>
-                                        <input readOnly={readOnly}
-                                            type="text"
-                                            name="city"
-                                            value={customerData?.city || ''}
-                                            onChange={(e) => handleCustomerChange(e)}
-                                            className="w-full px-1 py-1 border border-gray-300 rounded"
-                                            placeholder="City"
-                                        />
-                                    </div> */}
                                     <div className="flex flex-col">
                                         <label htmlFor="pin" className="text-black">PIN Code:</label>
                                         <input readOnly={readOnly}
@@ -457,29 +470,10 @@ const CreateCustomer = () => {
                                             placeholder="PIN Code"
                                         />
                                     </div>
-
-
-
-                                    <div className="flex flex-col">
-                                        <label htmlFor="working" className="text-black">Working Status:</label>
-                                        <select disabled={readOnly}
-                                            id="working"
-                                            name="working"
-                                            value={customerData?.working || customerData?.
-                                                workingStatus
-                                                || ''}
-                                            onChange={(e) => handleCustomerChange(e)}
-                                            className="w-full px-3 py-1 border border-gray-300 rounded  focus:outline-none focus:ring focus:border-blue-300"
-                                        >
-                                            <option readOnly={readOnly} value="">Select</option>
-                                            <option readOnly={readOnly} value="working">Working</option>
-                                            <option readOnly={readOnly} value="notWorking">Not Working</option>
-                                        </select>
-                                    </div>
-                                    <div className="flex w-[46vw] h-[2.75rem] text-[12px] flex-col">
+                                    <div className="flex w-[40vw]  h-[2.75rem] text-[12px] flex-col">
                                         <label htmlFor="address" className="text-black">Address:</label>
-                                        <textarea
-                                            type="textarea"
+                                        <input
+                                            type="text"
                                             name="address"
                                             value={customerData?.address || ''}
                                             onChange={(e) => handleCustomerChange(e)}
@@ -487,17 +481,19 @@ const CreateCustomer = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className='flex w-full gap-5 items-center justify-center'>
-                                    <label htmlFor="address" className="text-black ">Bar code:</label>
-                                    <div className="flex justify-center w-[30%] ">
-                                        <Barcode value={docId} height={60} displayValue={false} width={'2px'} />
+                                <div className='grid grid-cols-2 w-[18%]'>
+                                    <div className="flex justify-center items-center">
+                                        <LiveWebCam picture={picture} setPicture={setPicture} readOnly={readOnly} />
+                                    </div>
+                                    <div className="flex justify-center items-center rotate-90 h-3/4">
+                                        <Barcode value={docId} height={100} displayValue={false} width={1.25} />
                                     </div>
                                 </div>
-                            </div>
-                            <div className=" px-2  w-[25%] h-[40%] flex items-center justify-center flex-col">
-                                <LiveWebCam picture={picture} setPicture={setPicture} readOnly={readOnly} />
+
+
 
                             </div>
+
                         </div>
 
                         <table className="w-[100%] border-collapse border border-gray-300 overflow-scroll">
@@ -520,7 +516,7 @@ const CreateCustomer = () => {
                             </thead>
                             <tbody>
                                 {relatives.map((relative, index) => (
-                                    <tr key={index} className='text-[14px] even:bg-gray-200 odd:bg-white'>
+                                    <tr key={index} className='text-[12px] even:bg-gray-200 odd:bg-white'>
 
                                         <td className="border border-gray-300 px-1 ">
                                             {index + 1}
@@ -605,6 +601,7 @@ const CreateCustomer = () => {
             </div >
         </>
         
+
         </div >
     );
 };

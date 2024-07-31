@@ -31,7 +31,7 @@ const AppHeader = ({ setIsGlobalOpen, setLogout }) => {
   console.log("alowed Pages", allowedPages);
 
   const { data: pageGroup, isLoading, isFetching } = useGetPageGroupQuery({ searchParams: "" })
-
+  console.log(pageGroup, 'page');
   const toggleNavMenu = () => {
     sethideNavBar(!hideNavBar);
   };
@@ -121,13 +121,16 @@ const AppHeader = ({ setIsGlobalOpen, setLogout }) => {
   const transactionsGroup = [...new Set(transactions.map(page => page.pageGroupId))].map(pageId => { return { id: pageId, name: findElement(pageId, pageGroup?.data) } })
   const reports = allowedPages.filter((page) => page.type === "Reports")
   const reportGroups = [...new Set(reports.map(page => page.pageGroupId))].map(pageId => { return { id: pageId, name: findElement(pageId, pageGroup?.data) } })
+  const dashboard = allowedPages.filter((page) => page.type === "Dashboard")
+
+  const dashboardGroups = [...new Set(dashboard.map(page => page.pageGroupId))].map(pageId => { return { id: pageId, name: findElement(pageId, pageGroup?.data) } })
 
   return (
     <div className="relative">
       <nav className="nav-bar-bg flex md:items-center flex-wrap ">
         <div className="logo-heading flex flex-shrink-0 mr-6 break-words">
-          <div className="flex bg-white rounded px-1 m-1 text-black items-end text-2xl">
-            <h1>Jewel Shop</h1>
+          <div className="flex bg-white rounded px-1 m-1 text-black items-end text-xl">
+            <h1>SATYAA DIAMONDS & JEWELLERS</h1>
 
           </div>
         </div>
@@ -148,6 +151,11 @@ const AppHeader = ({ setIsGlobalOpen, setLogout }) => {
         </div>
         <div className="flex-grow flex items-center lg:w-auto">
           <div className="nav-item flex-grow">
+            <div
+              className={`block mt-4 lg:inline-block lg:mt-0  mr-4 ${navBatItemsStyle}`}
+            >
+              <MultiLevelDropDown heading={"Dashboard"} groups={dashboardGroups} pages={dashboard} />
+            </div>
             <div
               className={`block mt-4 lg:inline-block lg:mt-0  mr-4 ${navBatItemsStyle}`}
             >

@@ -10,6 +10,7 @@ import { generateSessionId } from "../../../Utils/helper";
 import secureLocalStorage from "react-secure-storage";
 import Modal from "../../../UiComponents/Modal";
 import { BranchAndFinyearForm } from "../../components";
+import bgImg from '../../../assets/gold.avif'
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
 const Login = () => {
@@ -129,7 +130,7 @@ const Login = () => {
       </Modal>
 
       <div className="flex justify-start items-center bg-gray-200 flex-col h-screen">
-        <img className="absolute w-full h-full" src="https://static.vecteezy.com/system/resources/previews/033/648/498/non_2x/perspective-view-of-customer-shopping-consumer-good-on-shelves-between-corridor-with-clear-light-in-convenience-supermarket-and-minimart-photo.jpg" />
+        <img className="absolute w-full h-[100%]" src={bgImg} />
         <div className="relative w-full h-full">
           <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0 bg-blackOverlay">
             {loading ? (

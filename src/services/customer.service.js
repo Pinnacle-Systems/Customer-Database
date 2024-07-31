@@ -113,7 +113,7 @@ async function create(req) {
     };
     const image = req.file
     const { relatives, companyId, finYearId, name, gender, email, phone, city,
-        state, pin, married, weddingDate, working, age, address, dob, panNo, isImageDeleted,
+        state, pin, married, weddingDate, working, age, address, dob, panNo, isImageDeleted, whatsNum,
     } = await req.body;
     console.log(req.body, 'req');
     console.log(companyId, 'companyId')
@@ -128,6 +128,7 @@ async function create(req) {
             gender: gender,
             email: email,
             phone: phone,
+            whatsNum: whatsNum,
             city: city,
             state: state,
             pin: pin,
@@ -145,7 +146,8 @@ async function create(req) {
                     type: relative.type,
                     name: relative.name,
                     dob: toDate(relative.dob),
-                    phoneNumber: relative.phoneNumber
+                    phoneNumber: relative.phoneNumber,
+                    weddingDate: toDate(relative.weddingDate)
                 })),
             },
         },
@@ -157,7 +159,7 @@ async function create(req) {
 async function update(id, req) {
     const image = req.file
     const { relatives, companyId, finYearId, name, gender, email, phone, city,
-        state, pin, married, weddingDate, working, age, address, dob, panNo, isImageDeleted, } = await req.body;
+        state, pin, married, weddingDate, working, age, address, dob, panNo, isImageDeleted, whatsNum, } = await req.body;
     const toDate = (dateString) => {
         const date = new Date(dateString);
         return isNaN(date.getTime()) ? null : date;
@@ -178,6 +180,7 @@ async function update(id, req) {
             gender: gender,
             email: email,
             phone: phone,
+            whatsNum: whatsNum,
             city: city,
             state: state,
             pin: pin,
@@ -196,7 +199,8 @@ async function update(id, req) {
                     type: relative.type,
                     name: relative.name,
                     dob: toDate(relative.dob),
-                    phoneNumber: relative.phoneNumber
+                    phoneNumber: relative.phoneNumber,
+                    weddingDate: toDate(relative.weddingDate)
                 })),
             },
         }

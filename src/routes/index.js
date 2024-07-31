@@ -34,6 +34,7 @@ export { default as salesReturn } from "./salesReturn.route.js"
 export { default as uom } from "./uom.route.js"
 export { default as relation } from "./relation.route.js"
 export { default as customer } from "./customer.route.js"
+export { default as customerRelations } from "./customerRelations.routes.js"
 
 
 

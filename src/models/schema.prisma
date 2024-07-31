@@ -253,6 +253,7 @@ enum PageType {
   Transactions
   Reports
   AdminAccess
+  Dashboard
 }
 
 model PageGroup {
@@ -602,7 +603,7 @@ model Customer {
   name              String?
   gender            String?
   email             String?
-  phone             String
+  phone             String?             @unique
   address           String?
   city              String?
   state             String?
@@ -618,6 +619,7 @@ model Customer {
   createdAt         DateTime            @default(now())
   panNo             String?
   image             String?
+  whatsNum          String?
 }
 
 model customerRelations {
@@ -626,6 +628,7 @@ model customerRelations {
   type        String?
   dob         DateTime?
   phoneNumber String?
+  weddingDate String?
   Customer    Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
   customerId  Int
 }

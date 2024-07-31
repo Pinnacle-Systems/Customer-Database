@@ -25,6 +25,7 @@ export const pageType = [
     { show: 'MASTER', value: 'Masters' },
     { show: 'TRANSACTION', value: 'Transactions' },
     { show: 'REPORTS', value: 'Reports' },
+    { show: 'DASHBOARD', value: 'Dashboard' },
     { show: 'ADMIN CONTROLS', value: 'AdminAccess' },
 ]
 
