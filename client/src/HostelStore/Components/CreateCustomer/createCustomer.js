@@ -6,13 +6,11 @@ import secureLocalStorage from 'react-secure-storage';
 import { PDFViewer } from '@react-pdf/renderer';
 import tw from "../../../Utils/tailwind-react-pdf";
 import Modal from "../../../UiComponents/Modal";
-import bg from "../../../assets/bg.webp"
 import FormHeader from '../../../Basic/components/FormHeader';
 import moment from 'moment';
 import Barcode from 'react-barcode';
-import BrowseSingleImage from '../../../Basic/components/BrowseSingleImage';
 import { getCommonParams } from '../../../Utils/helper';
-import LiveWebCam from '../../../Basic/components/LiveWebCam copy';
+import LiveWebCam from '../../../Basic/components/LiveWebCam';
 import { useGetStateQuery } from '../../../redux/services/StateMasterService';
 import { useGetCityQuery } from '../../../redux/services/CityMasterService';
 import IdCardPrint from './IdCardPrint.js';
