@@ -284,3 +284,10 @@ export function getDiscountAmount(discountType, discountValue, grossAmount) {
 export function removeComma(str) {
   return str.replace(/,/g, '')
 }
+
+
+export async function dataUrlToFile(dataUrl, fileName) {
+  const res = await fetch(dataUrl);
+  const blob = await res.blob();
+  return new File([blob], fileName, { type: 'image/png' });
+}

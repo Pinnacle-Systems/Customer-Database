@@ -197,6 +197,7 @@ const CreateCustomer = () => {
             try {
                 await removeData(id).unwrap();
                 setId("");
+                onNew();
                 toast.success("Deleted Successfully");
                 refetch()
             } catch (error) {

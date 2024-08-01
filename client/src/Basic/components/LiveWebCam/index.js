@@ -1,7 +1,9 @@
-import React, { useRef, useCallback, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { ThreeCircles } from 'react-loader-spinner';
 import Webcam from 'react-webcam'
 import { DeleteButton } from '../../../Buttons';
+import { getImageUrlPath } from '../../../Constants';
+import { dataUrlToFile } from '../../../Utils/helper';
 const videoConstraints = {
     width: 250,
     height: 250,
@@ -14,19 +16,11 @@ const LiveWebCam = ({ picture, setPicture, onClose }) => {
         setLoading(false);
     };
     const webcamRef = useRef(null)
-    const capture = useCallback(() => {
-        const pictureSrc = webcamRef.current.getScreenshot()
+    const capture = async () => {
+        const pictureSrc = await dataUrlToFile(webcamRef.current.getScreenshot(), "emp.png");
         setPicture(pictureSrc)
-    })
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
+    }
 
-    const imageWidth = "250px"
-    const imageHeight = "250px";
     return (
         <div className='flex flex-col gap-2'>
             <>
@@ -56,13 +50,13 @@ const LiveWebCam = ({ picture, setPicture, onClose }) => {
                             : (<>
                                 {(picture instanceof File)
                                     ?
-                                    <img id="productImageView" src={toBase64(picture).then(data => setPicture(data))} alt={"employee image"} className='h-full w-64 rounded-full border' />
+                                    <img id="productImageView" src={URL.createObjectURL(picture)} alt={"employee"} className='h-full w-64 rounded-full border' />
                                     :
-                                    <img src={picture} alt={"employee image"} className='h-full rounded-full border w-64' />
+                                    <img src={getImageUrlPath(picture)} alt={"employee"} className='h-full rounded-full border w-64' />
                                 }
-                                </>
+                            </>
                             )
-                            }
+                        }
                     </div>
                 }
                 <div className='flex justify-between gap-2'>
