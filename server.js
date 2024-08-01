@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { createServer } from 'http';
+import { createServer } from 'https';
+import fs from 'fs'
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -43,7 +44,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-app.use(cors())
+// app.use(cors())
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -99,8 +100,12 @@ app.use('/relation', relation)
 app.use("/customer", customer)
 app.use("/customerRelations", customerRelations)
 
+const keys = {
+  key: fs.readFileSync('./cert/localhost.key'),
+  cert: fs.readFileSync('./cert/localhost.crt')
+};
 
-const httpServer = createServer(app);
+const httpServer = createServer(keys, app);
 const io = new Server(httpServer, {
   cors: {
     origin: "*",

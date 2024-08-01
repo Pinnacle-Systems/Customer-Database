@@ -78,7 +78,7 @@ const ActiveTabList = () => {
             >
               <button
                 onClick={() => {
-                  dispatch(push({ id: tab.id }));
+                  dispatch(push({ name: tab.name }));
                 }} className="text-[13px]"
               >
                 {tab.name}
@@ -86,7 +86,7 @@ const ActiveTabList = () => {
               </button>
               <button className="hover:bg-red-400 px-1 rounded-xs transition"
                 onClick={() => {
-                  dispatch(remove({ id: tab.id }));
+                  dispatch(remove({ name: tab.name }));
                 }}
               >
                 {CLOSE_ICON}
@@ -108,14 +108,14 @@ const ActiveTabList = () => {
                 } `}>
                 <button
                   onClick={() => {
-                    dispatch(push({ id: tab.id }));
+                    dispatch(push({ name: tab.name }));
                   }}
                 >
                   {tab.name}
                 </button>
                 <button className="hover:bg-red-400 px-1 rounded-xs transition"
                   onClick={() => {
-                    dispatch(remove({ id: tab.id }));
+                    dispatch(remove({ name: tab.name }));
                   }}
                 >
                   {CLOSE_ICON}

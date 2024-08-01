@@ -53,7 +53,8 @@
     "xlsx-js-style": "^1.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+   "start": "set HTTPS=true&&set SSL_CRT_FILE=../cert/localhost.crt&&set SSL_KEY_FILE=../cert/localhost.key&&react-scripts start",
+   "startNo": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

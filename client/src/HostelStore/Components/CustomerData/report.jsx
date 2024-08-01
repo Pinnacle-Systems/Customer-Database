@@ -3,14 +3,15 @@ import { useGetCustomersQuery } from '../../../redux/services/createCustomer.ser
 import secureLocalStorage from 'react-secure-storage';
 import moment from 'moment';
 import { getImageUrlPath } from '../../../Constants';
-
+import { TablePagination } from '@material-ui/core';
 
 const CustomerReport = () => {
     const [customers, setCustomers] = useState([]);
     const [currentOpenNumber, setCurrentOpenNumber] = useState(null);
     const [singleData, setSingleData] = useState({});
     const [searchValue, setSearchValue] = useState('');
-
+    const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [page, setPage] = useState(0);
     const params = { companyId: secureLocalStorage.getItem(sessionStorage.getItem("sessionId") + "userCompanyId") };
     const { data: dt, isLoading } = useGetCustomersQuery({ searchParams: searchValue, params: params });
 
@@ -23,7 +24,14 @@ const CustomerReport = () => {
     const filteredCustomers = customers.filter(customer =>
         customer.phone.includes(searchValue)
     );
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
     return (
         <div className="h-full flex  w-full">
             <div className=" p-2 rounded shadow-md w-full">
@@ -124,8 +132,17 @@ const CustomerReport = () => {
                                 </React.Fragment>
                             ))}
                         </tbody>
+
                     )}
                 </table>
+                <TablePagination
+                    component="div"
+                    count={filteredCustomers.length}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
             </div>
         </div>
     );

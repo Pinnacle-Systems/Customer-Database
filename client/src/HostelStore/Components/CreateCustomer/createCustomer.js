@@ -126,10 +126,11 @@ const CreateCustomer = () => {
     };
 
     const handleClear = () => {
-        setCustomerData({ customerId: '', name: '', gender: '', email: '', phone: '', city: '', state: '', pin: '', married: '', weddingDate: '', members: '', working: '', age: '', purchaseDate: '', purchaseValue: '', totalValue: '', address: '', image: '', dob: '', whatsNum: '' });
+        setCustomerData({ customerId: '', name: '', gender: '', email: '', phone: '', city: '', state: '', pin: '', married: '', weddingDate: '', members: '', working: '', age: '', purchaseDate: '', purchaseValue: '', totalValue: '', address: '', imageFile: '', dob: '', whatsNum: '' });
         setRelatives([{ type: '', name: '', dob: '', weddingDate: '', phoneNumber: '' }]);
         setSearch('')
         setPicture('')
+        setImageFile('')
 
     }
     console.log(imageFile, 'image');
